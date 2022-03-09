@@ -1,0 +1,77 @@
+package BasePack;
+
+public class Hanglemez {
+	String eloado;	
+	String nev;
+	int ar;
+	
+	//Constructor Hanglemezhez str str int
+	public Hanglemez(String eloado, String nev, int ar) {
+		super();
+		this.eloado = eloado;
+		this.nev = nev;
+		this.ar = ar;
+	}
+
+	//GETTERS & SETTERS
+	
+	public String getEloado() {
+		return eloado;
+	}
+
+	public void setEloado(String eloado) {
+		this.eloado = eloado;
+	}
+
+	public String getNev() {
+		return nev;
+	}
+
+	public void setNev(String nev) {
+		this.nev = nev;
+	}
+
+	public int getAr() {
+		return ar;
+	}
+
+	public void setAr(int ar) {
+		this.ar = ar;
+	}
+
+	@Override
+	public String toString() {
+		return "Hanglemez [eloado=" + eloado + ", nev=" + nev + ", ar=" + ar + "]";
+	}
+	
+	//Ár összehasonlító
+	public static Hanglemez arOsszehasonlito (Hanglemez h1, Hanglemez h2){
+		if(h1.getAr() > h2.getAr()){
+			return h1;
+		}else {
+			return h2;}
+
+	}
+	
+}
+
+HanglemezTesz___________________________________________________________
+
+package RuningPack;
+
+import BasePack.Hanglemez;
+
+public class HanglemezTeszt {
+
+	public static void main(String[] args) {
+		Hanglemez elvis = new Hanglemez("Elvis", "Jail Rock", 5000);
+		Hanglemez jackson = new Hanglemez("Michael Jackson", "Black or White", 6000);
+		
+		System.out.println(elvis);
+		System.out.println(jackson);
+		
+		System.out.println("A drágább: " + Hanglemez.arOsszehasonlito(elvis, jackson));
+
+	}
+
+}
