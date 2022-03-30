@@ -1,0 +1,199 @@
+package used;
+
+public abstract class Hasab {
+	private int height;
+
+	public Hasab(int height) {
+		super();
+		this.height = height;
+	}
+
+	//Getters & Setters
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	
+	//Abstract get area's size
+	public abstract double getArea();
+	
+	//Get volume from height * getArea() method, return double
+	public double getVolume(){
+		return height * getArea();
+	}
+	
+	public boolean hasGreaterVolume(Hasab other){
+		if(this.getVolume() > other.getVolume()){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+}
+__________________________________
+package used;
+
+public class Cilinder extends Hasab{
+
+	private double radius;
+
+	public Cilinder(int height, double radius) {
+		super(height);
+		this.radius = radius;
+	}
+	
+	@Override
+	public double getArea(){
+		return radius * radius * Math.PI;
+	}
+
+	@Override
+	public String toString() {
+		return "Cilinder [radius=" + radius + ", getArea()=" + getArea() + ", getHeight()=" + getHeight()
+				+ ", getVolume()=" + getVolume() + "]";
+	}
+	
+}
+_____________________________________________
+
+package used;
+
+public class Brick extends Hasab {
+	
+	private int side_a;
+	private int side_b;
+
+	@Override
+	public double getArea() {
+		return side_a * side_b;
+	}
+
+	public Brick(int height, int siderA, int siderB) {
+		super(height);
+		this.side_a = siderA;
+		this.side_b = siderB;
+	}
+
+	@Override
+	public String toString() {
+		return "Brick [side_a=" + side_a + ", side_b=" + side_b + ", getArea()=" + getArea() + ", getHeight()="
+				+ getHeight() + ", getVolume()=" + getVolume() + "]";
+	}
+	
+}
+______________________________________
+package used.array;
+import used.*;
+public class CubeArray {
+	private Hasab[] myArray;
+	
+	public CubeArray(int size){
+		myArray = new Hasab[size];
+	}
+	
+	public void setItem(int index, Hasab c){
+		myArray[index] = c;
+	}
+	
+	
+	public int getMaxSize(){
+		return myArray.length;
+	}
+	
+	public Hasab getItem(int index){
+		return myArray[index];
+	}
+	
+	public int getTrueSize(){
+		int counter = 0;
+		
+		for ( int i = 0; i< myArray.length; i++){
+			if(myArray[i] != null){
+				counter++;
+			}
+		}
+		
+		return counter;
+	}
+	
+	public double getAvgVolume(){
+		double avg = 0;
+
+		for (int i = 0; i< myArray.length && myArray[i] != null ; i++) {
+			avg += myArray[i].getVolume();
+		}
+		return avg / getTrueSize();	
+	}
+	
+	public int getNumberOfCilinders(){
+		int counter = 0;
+		
+		for (int i = 0; i< myArray.length && myArray[i] != null ; i++) {
+			if(myArray[i] instanceof Cilinder){
+				counter += 1;
+			}
+		}
+		
+		return counter;
+	}
+	
+	public int getNumberOfBricks(){
+		int counter = 0;
+		
+		for (int i = 0; i< myArray.length && myArray[i] != null ; i++) {
+			if(myArray[i] instanceof Brick){
+				counter += 1;
+			}
+		}
+		
+		return counter;
+	}
+	
+	
+	
+}
+__________________________________________
+
+package runnable;
+
+import used.Brick;
+import used.Cilinder;
+import used.Hasab;
+import used.array.CubeArray;
+
+public class CubeArrayTest {
+
+	public static void main(String[] args) {
+		CubeArray myArray = new CubeArray(5);
+		
+		for (int i = 0; i < myArray.getMaxSize(); i++) {
+			int option = (int)(Math.random()*3) + 1;
+			switch(option){
+			case 1:
+				double r = (Math.random() * 10)+1;
+				Hasab c = new Cilinder(10, r);
+				myArray.setItem(i, c);
+			case 2:
+				int siderA = (int)(Math.random() * 5)+1;
+				int siderB = (int)(Math.random() * 5)+1;
+				Hasab b = new Brick(10, siderA, siderB);
+				myArray.setItem(i, b);
+			case 3:
+				Hasab c2 = null;
+				myArray.setItem(i, c2);
+			}//end of switch
+		}//end of for
+		
+		System.out.println("Size: " + myArray.getMaxSize());
+		System.out.println("Avg Volume: " + myArray.getAvgVolume());
+		System.out.println("Number of Bricks: " + myArray.getNumberOfBricks());
+		System.out.println("Number of Cilinder: " + myArray.getNumberOfCilinders());
+		System.out.println("Number of items: " + myArray.getTrueSize());
+	}
+
+}
